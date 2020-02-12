@@ -23,7 +23,10 @@ import {
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
 import { useRef } from '@wordpress/element';
-import { StylesPanel, useGlobalStylesState } from '@wordpress/global-styles';
+import {
+	GlobalStylesControls,
+	useGlobalStylesState,
+} from '@wordpress/global-styles';
 
 function HeadingEdit( { attributes, setAttributes, mergeBlocks, onReplace } ) {
 	const ref = useRef();
@@ -58,8 +61,8 @@ function HeadingEdit( { attributes, setAttributes, mergeBlocks, onReplace } ) {
 					} }
 				/>
 			</BlockControls>
-			<InspectorControls>
-				<StylesPanel title={ __( 'Heading styles' ) }>
+			<GlobalStylesControls>
+				<PanelBody title={ __( 'Heading' ) }>
 					<RangeControl
 						label={ __( 'Font Weight' ) }
 						value={ headingFontWeight }
@@ -68,7 +71,9 @@ function HeadingEdit( { attributes, setAttributes, mergeBlocks, onReplace } ) {
 						max={ 900 }
 						step={ 100 }
 					/>
-				</StylesPanel>
+				</PanelBody>
+			</GlobalStylesControls>
+			<InspectorControls>
 				<PanelBody title={ __( 'Heading settings' ) }>
 					<p>{ __( 'Level' ) }</p>
 					<HeadingToolbar
