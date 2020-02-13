@@ -31,7 +31,7 @@ import {
 
 function HeadingEdit( { attributes, setAttributes, mergeBlocks, onReplace } ) {
 	const ref = useRef();
-	const { headingFontWeight, setHeadingFontWeight } = useGlobalStylesState();
+	const { headingFontWeight, setStyles } = useGlobalStylesState();
 	const { TextColor, InspectorControlsColorPanel } = __experimentalUseColors(
 		[ { name: 'textColor', property: 'color' } ],
 		{
@@ -67,7 +67,9 @@ function HeadingEdit( { attributes, setAttributes, mergeBlocks, onReplace } ) {
 					<RangeControl
 						label={ __( 'Font Weight' ) }
 						value={ headingFontWeight }
-						onChange={ setHeadingFontWeight }
+						onChange={ ( nextValue ) =>
+							setStyles( { headingFontWeight: nextValue } )
+						}
 						min={ 100 }
 						max={ 900 }
 						step={ 100 }
