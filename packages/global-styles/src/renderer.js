@@ -80,7 +80,7 @@ function compileStyles( styles = {} ) {
 	html.push( '}' );
 
 	html.push(
-		'.editor-styles-wrapper { background-color: var(--wp--color--background); }'
+		'.editor-styles-wrapper { background-color: var(--wp--core--color--background); }'
 	);
 
 	return html.join( '\n' );
