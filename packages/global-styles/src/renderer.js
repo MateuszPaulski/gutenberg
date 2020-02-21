@@ -73,7 +73,7 @@ function compileStyles( styles = {} ) {
 	for ( const key in flattenedStyles ) {
 		const value = flattenedStyles[ key ];
 		if ( value ) {
-			const style = `--wp-${ key.replace( /\./g, '--' ) }: ${ value };`;
+			const style = `--wp--${ key.replace( /\./g, '--' ) }: ${ value };`;
 			html.push( style );
 		}
 	}
