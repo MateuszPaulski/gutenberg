@@ -27,17 +27,15 @@ export function GlobalStylesStateProvider( { children } ) {
 
 export function useGlobalStylesDataState() {
 	const initialState = {
-		fontSize: 16,
-		fontWeight: 400,
-		headingFontWeight: 600,
+		colorBackground: '#ffffff',
+		colorPrimary: '#0000ff',
+		colorText: '#000000',
 		fontScale: 1.2,
+		fontSize: 16,
+		fontSizeQuote: 24,
+		fontWeight: 400,
+		fontWeightHeading: 600,
 		lineHeight: 1.5,
-		quoteFontSize: 24,
-		textColor: '#000000',
-		backgroundColor: '#ffffff',
-		primaryColor: '#0000ff',
-		paragraphColor: null,
-		paragraphLineHeight: null,
 	};
 
 	const [ state, _setState ] = useState( initialState );
@@ -54,40 +52,30 @@ export function useGlobalStylesStore() {
 	// TODO: Replace with data/actions from wp.data
 	const [ styleState, setStyles ] = useGlobalStylesDataState();
 	const {
-		fontSize,
+		colorBackground,
+		colorPrimary,
+		colorText,
 		fontScale,
-		lineHeight,
+		fontSize,
+		fontSizeQuote,
 		fontWeight,
-		headingFontWeight,
-		paragraphColor,
-		paragraphLineHeight,
-		quoteFontSize,
-		textColor,
-		backgroundColor,
-		primaryColor,
+		fontWeightHeading,
+		lineHeight,
 	} = styleState;
 
 	const styles = {
 		color: {
-			text: textColor,
-			background: backgroundColor,
-			primary: primaryColor,
+			background: colorBackground,
+			primary: colorPrimary,
+			text: colorText,
 		},
 		typography: {
-			...generateFontSizes( { fontSize, fontScale } ),
-			...generateLineHeight( { lineHeight } ),
 			fontScale,
+			...generateFontSizes( { fontSize, fontScale } ),
+			fontSizeQuote: toPx( fontSizeQuote ),
 			fontWeight,
-		},
-		heading: {
-			fontWeight: headingFontWeight,
-		},
-		quote: {
-			fontSize: toPx( quoteFontSize ),
-		},
-		paragraph: {
-			color: paragraphColor,
-			lineHeight: paragraphLineHeight,
+			fontWeightHeading,
+			...generateLineHeight( { lineHeight } ),
 		},
 	};
 
@@ -106,7 +94,7 @@ export function useGlobalStylesStore() {
 function generateLineHeight( { lineHeight = 1.5 } ) {
 	return {
 		lineHeight,
-		titleLineHeight: ( lineHeight * 0.8 ).toFixed( 2 ),
+		lineHeightHeading: ( lineHeight * 0.8 ).toFixed( 2 ),
 	};
 }
 
