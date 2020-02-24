@@ -106,12 +106,12 @@ function generateFontSizes( { fontSize = 16, fontScale = 1.2 } ) {
 
 	return {
 		fontSize: `${ fontSize }px`,
-		fontSizeH1: toScaledPx( 5 ),
-		fontSizeH2: toScaledPx( 4 ),
-		fontSizeH3: toScaledPx( 3 ),
-		fontSizeH4: toScaledPx( 2 ),
-		fontSizeH5: toScaledPx( 1 ),
-		fontSizeH6: toScaledPx( 0.5 ),
+		fontSizeHeading1: toScaledPx( 5 ),
+		fontSizeHeading2: toScaledPx( 4 ),
+		fontSizeHeading3: toScaledPx( 3 ),
+		fontSizeHeading4: toScaledPx( 2 ),
+		fontSizeHeading5: toScaledPx( 1 ),
+		fontSizeHeading6: toScaledPx( 0.5 ),
 	};
 }
 

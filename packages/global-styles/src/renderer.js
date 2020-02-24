@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import { kebabCase } from 'lodash';
+
+/**
  * WordPress dependencies
  */
 import { useEffect, useLayoutEffect } from '@wordpress/element';
@@ -45,18 +50,18 @@ function useGlobalStylesEnvironment() {
 	}, [] );
 }
 
-function flattenObject( ob ) {
+function flattenObject( ob, token = '' ) {
 	const toReturn = {};
 
 	for ( const i in ob ) {
 		if ( ! ob.hasOwnProperty( i ) ) continue;
 
 		if ( typeof ob[ i ] === 'object' ) {
-			const flatObject = flattenObject( ob[ i ] );
+			const flatObject = flattenObject( ob[ i ], token );
 			for ( const x in flatObject ) {
 				if ( ! flatObject.hasOwnProperty( x ) ) continue;
 
-				toReturn[ i + '.' + x ] = flatObject[ x ];
+				toReturn[ i + token + kebabCase( x ) ] = flatObject[ x ];
 			}
 		} else {
 			toReturn[ i ] = ob[ i ];
@@ -66,14 +71,15 @@ function flattenObject( ob ) {
 }
 
 function compileStyles( styles = {} ) {
-	const flattenedStyles = { ...flattenObject( styles ) };
+	const token = '--';
+	const flattenedStyles = { ...flattenObject( styles, token ) };
 	const html = [];
 	html.push( ':root {' );
 
 	for ( const key in flattenedStyles ) {
 		const value = flattenedStyles[ key ];
 		if ( value ) {
-			const style = `--wp--${ key.replace( /\./g, '--' ) }: ${ value };`;
+			const style = `--wp--${ key }: ${ value };`;
 			html.push( style );
 		}
 	}
