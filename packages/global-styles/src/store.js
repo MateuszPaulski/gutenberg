@@ -12,7 +12,7 @@ import { useRenderedGlobalStyles } from './renderer';
  * TODO: Replace everything below with wp.data store mechanism
  */
 
-export const GlobalStylesContext = createContext( {} );
+const GlobalStylesContext = createContext( {} );
 export const useGlobalStylesState = () => useContext( GlobalStylesContext );
 
 export function GlobalStylesStateProvider( { children } ) {
@@ -25,7 +25,7 @@ export function GlobalStylesStateProvider( { children } ) {
 	);
 }
 
-export function useGlobalStylesDataState() {
+function useGlobalStylesDataState() {
 	const initialState = {
 		colorBackground: '#ffffff',
 		colorPrimary: '#0000ff',
@@ -48,7 +48,7 @@ export function useGlobalStylesDataState() {
 	return [ state, setState ];
 }
 
-export function useGlobalStylesStore() {
+function useGlobalStylesStore() {
 	// TODO: Replace with data/actions from wp.data
 	const [ styleState, setStyles ] = useGlobalStylesDataState();
 	const {
