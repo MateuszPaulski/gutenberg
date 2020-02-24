@@ -91,14 +91,14 @@ function useGlobalStylesStore() {
  * NOTE: Generators for extra computed values.
  */
 
-function generateLineHeight( { lineHeight = 1.5 } ) {
+function generateLineHeight( { lineHeight } ) {
 	return {
 		lineHeight,
 		lineHeightHeading: ( lineHeight * 0.8 ).toFixed( 2 ),
 	};
 }
 
-function generateFontSizes( { fontSize = 16, fontScale = 1.2 } ) {
+function generateFontSizes( { fontSize, fontScale } ) {
 	const toScaledPx = ( size ) => {
 		const value = ( Math.pow( fontScale, size ) * fontSize ).toFixed( 2 );
 		return toPx( value );
