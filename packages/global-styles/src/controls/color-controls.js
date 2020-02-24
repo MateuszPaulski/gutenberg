@@ -12,9 +12,9 @@ import { useGlobalStylesState } from '../store';
 
 export default function ColorControls() {
 	const {
-		textColor,
-		backgroundColor,
-		primaryColor,
+		colorText,
+		colorBackground,
+		colorPrimary,
 		setStyles,
 	} = useGlobalStylesState();
 
@@ -22,20 +22,20 @@ export default function ColorControls() {
 		<GlobalStylesPanelBody title={ __( 'Colors' ) } initialOpen={ false }>
 			<ColorControl
 				label={ __( 'Text' ) }
-				value={ textColor }
-				onChange={ ( value ) => setStyles( { textColor: value } ) }
+				value={ colorText }
+				onChange={ ( value ) => setStyles( { colorText: value } ) }
 			/>
 			<ColorControl
 				label={ __( 'Background' ) }
-				value={ backgroundColor }
+				value={ colorBackground }
 				onChange={ ( value ) =>
-					setStyles( { backgroundColor: value } )
+					setStyles( { colorBackground: value } )
 				}
 			/>
 			<ColorControl
 				label={ __( 'Primary' ) }
-				value={ primaryColor }
-				onChange={ ( value ) => setStyles( { primaryColor: value } ) }
+				value={ colorPrimary }
+				onChange={ ( value ) => setStyles( { colorPrimary: value } ) }
 			/>
 		</GlobalStylesPanelBody>
 	);
