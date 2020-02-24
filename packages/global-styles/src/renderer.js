@@ -17,7 +17,8 @@ export function useRenderedGlobalStyles( styles = {} ) {
 	const generatedStyles = compileStyles( styles );
 
 	useEffect( () => {
-		const styleNodeId = 'wp-global-styles-tag';
+		// styleNodeId should match server ID, see global-styles.php
+		const styleNodeId = 'global-styles-inline-css';
 		let styleNode = document.getElementById( styleNodeId );
 
 		if ( ! styleNode ) {
