@@ -62,7 +62,6 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 		...toCamelCase( baseStyles ),
 	};
 
-	// TODO: uddate user styles.
 	const setStyles = () => {};
 
 	// Add user styles if any.
