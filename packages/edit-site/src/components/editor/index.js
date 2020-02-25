@@ -63,7 +63,9 @@ function Editor( { settings: _settings } ) {
 	return template ? (
 		<>
 			<FullscreenMode isActive={ isFullscreenActive } />
-			<GlobalStylesStateProvider>
+			<GlobalStylesStateProvider
+				baseStyle={ settings.__experimentalGlobalStylesBase }
+			>
 				<SlotFillProvider>
 					<DropZoneProvider>
 						<EntityProvider kind="root" type="site">

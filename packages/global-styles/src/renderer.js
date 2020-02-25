@@ -62,7 +62,8 @@ function flattenObject( ob, token = '' ) {
 			for ( const x in flatObject ) {
 				if ( ! flatObject.hasOwnProperty( x ) ) continue;
 
-				toReturn[ i + token + kebabCase( x ) ] = flatObject[ x ];
+				toReturn[ kebabCase( i ) + token + kebabCase( x ) ] =
+					flatObject[ x ];
 			}
 		} else {
 			toReturn[ i ] = ob[ i ];
@@ -72,6 +73,7 @@ function flattenObject( ob, token = '' ) {
 }
 
 function compileStyles( styles = {} ) {
+	const prefix = '--wp';
 	const token = '--';
 	const flattenedStyles = { ...flattenObject( styles, token ) };
 	const html = [];
@@ -80,7 +82,7 @@ function compileStyles( styles = {} ) {
 	for ( const key in flattenedStyles ) {
 		const value = flattenedStyles[ key ];
 		if ( value ) {
-			const style = `--wp--${ key }: ${ value };`;
+			const style = `${ prefix + token + key }: ${ value };`;
 			html.push( style );
 		}
 	}

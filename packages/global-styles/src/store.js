@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import { camelCase } from 'lodash';
+
+/**
  * WordPress dependencies
  */
 import { useState, useContext, createContext } from '@wordpress/element';
@@ -15,8 +20,8 @@ import { useRenderedGlobalStyles } from './renderer';
 const GlobalStylesContext = createContext( {} );
 export const useGlobalStylesState = () => useContext( GlobalStylesContext );
 
-export function GlobalStylesStateProvider( { children } ) {
-	const state = useGlobalStylesStore();
+export function GlobalStylesStateProvider( { children, baseStyle } ) {
+	const state = useGlobalStylesStore( baseStyle );
 
 	return (
 		<GlobalStylesContext.Provider value={ state }>
@@ -25,20 +30,22 @@ export function GlobalStylesStateProvider( { children } ) {
 	);
 }
 
-function useGlobalStylesDataState() {
-	const initialState = {
-		colorBackground: '#ffffff',
-		colorPrimary: '#0000ff',
-		colorText: '#000000',
-		fontScale: 1.2,
-		fontSize: 16,
-		fontSizeQuote: 24,
-		fontWeight: 400,
-		fontWeightHeading: 600,
-		lineHeight: 1.5,
+function useGlobalStylesDataState( initialState ) {
+	const toCamelCase = ( tree ) => {
+		const newTree = {};
+		for ( const key in tree ) {
+			if ( ! tree.hasOwnProperty( key ) ) continue;
+
+			if ( tree[ key ] instanceof Object ) {
+				newTree[ camelCase( key ) ] = toCamelCase( tree[ key ] );
+			} else {
+				newTree[ camelCase( key ) ] = tree[ key ];
+			}
+		}
+		return newTree;
 	};
 
-	const [ state, _setState ] = useState( initialState );
+	const [ state, _setState ] = useState( toCamelCase( initialState ) );
 
 	const setState = ( nextState = {} ) => {
 		const mergedState = { ...state, ...nextState };
@@ -48,34 +55,18 @@ function useGlobalStylesDataState() {
 	return [ state, setState ];
 }
 
-function useGlobalStylesStore() {
+function useGlobalStylesStore( initialState ) {
 	// TODO: Replace with data/actions from wp.data
-	const [ styleState, setStyles ] = useGlobalStylesDataState();
-	const {
-		colorBackground,
-		colorPrimary,
-		colorText,
-		fontScale,
-		fontSize,
-		fontSizeQuote,
-		fontWeight,
-		fontWeightHeading,
-		lineHeight,
-	} = styleState;
+	const [ styleState, setStyles ] = useGlobalStylesDataState( initialState );
 
 	const styles = {
 		color: {
-			background: colorBackground,
-			primary: colorPrimary,
-			text: colorText,
+			...styleState.color,
 		},
 		typography: {
-			fontScale,
-			...generateFontSizes( { fontSize, fontScale } ),
-			fontSizeQuote: toPx( fontSizeQuote ),
-			fontWeight,
-			fontWeightHeading,
-			...generateLineHeight( { lineHeight } ),
+			...styleState.typography,
+			...generateFontSizesHeading( styleState.typography ),
+			...generateLineHeightHeading( styleState.typography ),
 		},
 	};
 
@@ -91,30 +82,32 @@ function useGlobalStylesStore() {
  * NOTE: Generators for extra computed values.
  */
 
-function generateLineHeight( { lineHeight } ) {
+function generateLineHeightHeading( { lineHeight } ) {
 	return {
-		lineHeight,
 		lineHeightHeading: ( lineHeight * 0.8 ).toFixed( 2 ),
 	};
 }
 
-function generateFontSizes( { fontSize, fontScale } ) {
-	const toScaledPx = ( size ) => {
-		const value = ( Math.pow( fontScale, size ) * fontSize ).toFixed( 2 );
-		return toPx( value );
-	};
+function generateFontSizesHeading( { fontSize, fontScale } ) {
+	const fontBase = fromPx( fontSize );
+	const toScale = ( size ) =>
+		( Math.pow( fontScale, size ) * fontBase ).toFixed( 2 );
 
 	return {
-		fontSize: `${ fontSize }px`,
-		fontSizeHeading1: toScaledPx( 5 ),
-		fontSizeHeading2: toScaledPx( 4 ),
-		fontSizeHeading3: toScaledPx( 3 ),
-		fontSizeHeading4: toScaledPx( 2 ),
-		fontSizeHeading5: toScaledPx( 1 ),
-		fontSizeHeading6: toScaledPx( 0.5 ),
+		fontSize,
+		fontSizeHeading1: toPx( toScale( 5 ) ),
+		fontSizeHeading2: toPx( toScale( 4 ) ),
+		fontSizeHeading3: toPx( toScale( 3 ) ),
+		fontSizeHeading4: toPx( toScale( 2 ) ),
+		fontSizeHeading5: toPx( toScale( 1 ) ),
+		fontSizeHeading6: toPx( toScale( 0.5 ) ),
 	};
 }
 
 function toPx( value ) {
 	return `${ value }px`;
+}
+
+function fromPx( value ) {
+	return +value.replace( 'px', '' );
 }

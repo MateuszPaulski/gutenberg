@@ -25,7 +25,8 @@
 		"@wordpress/block-editor": "../block-editor",
 		"@wordpress/components": "../components",
 		"@wordpress/element": "../element",
-		"@wordpress/i18n": "../i18n"
+		"@wordpress/i18n": "../i18n",
+		"lodash": "4.17.15"
 	},
 	"publishConfig": {
 		"access": "public"
