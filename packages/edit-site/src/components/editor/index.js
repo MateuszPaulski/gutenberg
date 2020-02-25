@@ -64,7 +64,8 @@ function Editor( { settings: _settings } ) {
 		<>
 			<FullscreenMode isActive={ isFullscreenActive } />
 			<GlobalStylesStateProvider
-				baseStyle={ settings.__experimentalGlobalStylesBase }
+				userEntityId={ settings.__experimentalGlobalStylesUserEntityId }
+				baseStyles={ settings.__experimentalGlobalStylesBase }
 			>
 				<SlotFillProvider>
 					<DropZoneProvider>

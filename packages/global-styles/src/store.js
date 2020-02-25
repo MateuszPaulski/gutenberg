@@ -6,7 +6,8 @@ import { camelCase } from 'lodash';
 /**
  * WordPress dependencies
  */
-import { useState, useContext, createContext } from '@wordpress/element';
+import { useContext, createContext } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
@@ -20,60 +21,85 @@ import { useRenderedGlobalStyles } from './renderer';
 const GlobalStylesContext = createContext( {} );
 export const useGlobalStylesState = () => useContext( GlobalStylesContext );
 
-export function GlobalStylesStateProvider( { children, baseStyle } ) {
-	const state = useGlobalStylesStore( baseStyle );
+export function GlobalStylesStateProvider( {
+	children,
+	baseStyles,
+	userEntityId,
+} ) {
+	// Trigger entity retrieval.
+	useSelect( ( select ) =>
+		select( 'core' ).getEntityRecord(
+			'postType',
+			'wp_global_styles',
+			userEntityId
+		)
+	);
+	const globalStyles = useGlobalStyles( baseStyles, userEntityId );
 
 	return (
-		<GlobalStylesContext.Provider value={ state }>
+		<GlobalStylesContext.Provider value={ globalStyles }>
 			{ children }
 		</GlobalStylesContext.Provider>
 	);
 }
 
-function useGlobalStylesDataState( initialState ) {
-	const toCamelCase = ( tree ) => {
-		const newTree = {};
-		for ( const key in tree ) {
-			if ( ! tree.hasOwnProperty( key ) ) continue;
+function toCamelCase( tree ) {
+	if ( ! ( tree instanceof Object ) ) {
+		return tree;
+	}
 
-			if ( tree[ key ] instanceof Object ) {
-				newTree[ camelCase( key ) ] = toCamelCase( tree[ key ] );
-			} else {
-				newTree[ camelCase( key ) ] = tree[ key ];
-			}
+	const newTree = {};
+	for ( const key in tree ) {
+		if ( ! tree.hasOwnProperty( key ) ) continue;
+
+		if ( tree[ key ] instanceof Object ) {
+			newTree[ camelCase( key ) ] = toCamelCase( tree[ key ] );
+		} else {
+			newTree[ camelCase( key ) ] = tree[ key ];
 		}
-		return newTree;
-	};
-
-	const [ state, _setState ] = useState( toCamelCase( initialState ) );
-
-	const setState = ( nextState = {} ) => {
-		const mergedState = { ...state, ...nextState };
-		_setState( mergedState );
-	};
-
-	return [ state, setState ];
+	}
+	return newTree;
 }
 
-function useGlobalStylesStore( initialState ) {
-	// TODO: Replace with data/actions from wp.data
-	const [ styleState, setStyles ] = useGlobalStylesDataState( initialState );
+function useGlobalStyles( baseStyles, userEntityId ) {
+	let styles = {
+		...toCamelCase( baseStyles ),
+	};
 
-	const styles = {
-		color: {
-			...styleState.color,
-		},
+	// TODO: uddate user styles.
+	const setStyles = () => {};
+
+	// Add user styles if any.
+	const userStyles = useSelect( ( select ) =>
+		select( 'core' ).getEditedEntityRecord(
+			'postType',
+			'wp_global_styles',
+			userEntityId
+		)
+	);
+	if ( Object.keys( userStyles ).length > 0 ) {
+		styles = {
+			...styles,
+			...toCamelCase( JSON.parse( userStyles.content ) ),
+		};
+	}
+
+	// Add generated styles.
+	styles = {
+		...styles,
 		typography: {
-			...styleState.typography,
-			...generateFontSizesHeading( styleState.typography ),
-			...generateLineHeightHeading( styleState.typography ),
+			...styles.typography,
+			...generateFontSizesHeading( styles.typography ),
+			...generateLineHeightHeading( styles.typography ),
 		},
 	};
 
+	// Convert styles to CSS props.
 	useRenderedGlobalStyles( styles );
 
+	// Return context value.
 	return {
-		...styleState,
+		...styles,
 		setStyles,
 	};
 }
