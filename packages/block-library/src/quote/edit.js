@@ -19,7 +19,7 @@ import { createBlock } from '@wordpress/blocks';
 import {
 	GlobalStylesControls,
 	GlobalStylesPanelBody,
-	useGlobalStylesState,
+	useGlobalStylesContext,
 } from '@wordpress/global-styles';
 
 export default function QuoteEdit( {
@@ -31,7 +31,7 @@ export default function QuoteEdit( {
 	className,
 } ) {
 	const { align, value, citation } = attributes;
-	const { quoteFontSize, setStyles } = useGlobalStylesState();
+	const { quoteFontSize, setStyles } = useGlobalStylesContext();
 
 	return (
 		<>

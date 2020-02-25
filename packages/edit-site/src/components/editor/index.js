@@ -20,7 +20,7 @@ import {
 	__experimentalFullscreenMode as FullscreenMode,
 } from '@wordpress/block-editor';
 import { useViewportMatch } from '@wordpress/compose';
-import { GlobalStylesStateProvider } from '@wordpress/global-styles';
+import { GlobalStylesProvider } from '@wordpress/global-styles';
 
 /**
  * Internal dependencies
@@ -63,7 +63,7 @@ function Editor( { settings: _settings } ) {
 	return template ? (
 		<>
 			<FullscreenMode isActive={ isFullscreenActive } />
-			<GlobalStylesStateProvider
+			<GlobalStylesProvider
 				userEntityId={ settings.__experimentalGlobalStylesUserEntityId }
 				baseStyles={ settings.__experimentalGlobalStylesBase }
 			>
@@ -97,7 +97,7 @@ function Editor( { settings: _settings } ) {
 						</EntityProvider>
 					</DropZoneProvider>
 				</SlotFillProvider>
-			</GlobalStylesStateProvider>
+			</GlobalStylesProvider>
 		</>
 	) : null;
 }

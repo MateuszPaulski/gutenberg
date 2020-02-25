@@ -19,13 +19,9 @@ import { useRenderedGlobalStyles } from './renderer';
  */
 
 const GlobalStylesContext = createContext( {} );
-export const useGlobalStylesState = () => useContext( GlobalStylesContext );
+export const useGlobalStylesContext = () => useContext( GlobalStylesContext );
 
-export function GlobalStylesStateProvider( {
-	children,
-	baseStyles,
-	userEntityId,
-} ) {
+export function GlobalStylesProvider( { children, baseStyles, userEntityId } ) {
 	// Trigger entity retrieval.
 	useSelect( ( select ) =>
 		select( 'core' ).getEntityRecord(

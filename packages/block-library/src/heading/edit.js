@@ -26,12 +26,12 @@ import { useRef } from '@wordpress/element';
 import {
 	GlobalStylesControls,
 	GlobalStylesPanelBody,
-	useGlobalStylesState,
+	useGlobalStylesContext,
 } from '@wordpress/global-styles';
 
 function HeadingEdit( { attributes, setAttributes, mergeBlocks, onReplace } ) {
 	const ref = useRef();
-	const { headingFontWeight, setStyles } = useGlobalStylesState();
+	const { headingFontWeight, setStyles } = useGlobalStylesContext();
 	const { TextColor, InspectorControlsColorPanel } = __experimentalUseColors(
 		[ { name: 'textColor', property: 'color' } ],
 		{

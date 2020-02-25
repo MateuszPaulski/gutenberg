@@ -8,7 +8,7 @@ import { ColorControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { GlobalStylesPanelBody } from '../global-styles-panel-body';
-import { useGlobalStylesState } from '../store';
+import { useGlobalStylesContext } from '../store';
 
 export default function ColorControls() {
 	const {
@@ -16,7 +16,7 @@ export default function ColorControls() {
 		colorBackground,
 		colorPrimary,
 		setStyles,
-	} = useGlobalStylesState();
+	} = useGlobalStylesContext();
 
 	return (
 		<GlobalStylesPanelBody title={ __( 'Colors' ) } initialOpen={ false }>
