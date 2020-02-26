@@ -13,6 +13,7 @@ import { useDispatch, useSelect } from '@wordpress/data';
  * Internal dependencies
  */
 import { useRenderedGlobalStyles } from './renderer';
+import { fromPx, toPx } from './utils';
 
 /**
  * TODO: Replace everything below with wp.data store mechanism
@@ -180,12 +181,4 @@ function generateFontSizesHeading( { fontSize, fontScale } ) {
 		fontSizeHeading5: toPx( toScale( 1 ) ),
 		fontSizeHeading6: toPx( toScale( 0.5 ) ),
 	};
-}
-
-export function toPx( value ) {
-	return `${ value }px`;
-}
-
-export function fromPx( value ) {
-	return +value.replace( 'px', '' );
 }
