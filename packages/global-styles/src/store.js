@@ -99,19 +99,42 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 	const { editEntityRecord } = useDispatch( 'core' );
 
 	const setColor = ( newStyles ) => {
-		const newContent = JSON.stringify( {
-			...styles,
+		const newColor = {
 			color: {
 				...styles.color,
 				...newStyles,
 			},
+		};
+		const newContent = JSON.stringify( {
+			...styles,
+			...newColor,
 		} );
 		editEntityRecord( 'postType', 'wp_global_styles', userEntityId, {
 			content: newContent,
 		} );
 	};
 
-	const setTypography = () => {};
+	const setTypography = ( newStyles ) => {
+		const baseTypography = getTypographyFromControls(
+			styles.typography,
+			newStyles
+		);
+		const newTypography = {
+			typography: {
+				...baseTypography,
+				...generateFontSizesHeading( baseTypography ),
+				...generateLineHeightHeading( baseTypography ),
+			},
+		};
+
+		const newContent = JSON.stringify( {
+			...styles,
+			...newTypography,
+		} );
+		editEntityRecord( 'postType', 'wp_global_styles', userEntityId, {
+			content: newContent,
+		} );
+	};
 
 	// Return context value.
 	return {
@@ -124,6 +147,19 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 /**
  * NOTE: Generators for extra computed values.
  */
+
+function getTypographyFromControls( oldTypography, newTypography ) {
+	const merged = {
+		...oldTypography,
+		...newTypography,
+	};
+	if ( newTypography.hasOwnProperty( 'fontSizeQuote' ) ) {
+		merged.fontSizeQuote = toPx( newTypography.fontSizeQuote );
+	} else if ( newTypography.hasOwnProperty( 'fontSize' ) ) {
+		merged.fontSize = toPx( newTypography.fontSize );
+	}
+	return merged;
+}
 
 function generateLineHeightHeading( { lineHeight } ) {
 	return {
@@ -146,10 +182,10 @@ function generateFontSizesHeading( { fontSize, fontScale } ) {
 	};
 }
 
-function toPx( value ) {
+export function toPx( value ) {
 	return `${ value }px`;
 }
 
-function fromPx( value ) {
+export function fromPx( value ) {
 	return +value.replace( 'px', '' );
 }

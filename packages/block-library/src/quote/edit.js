@@ -20,6 +20,7 @@ import {
 	GlobalStylesControls,
 	GlobalStylesPanelBody,
 	useGlobalStylesContext,
+	fromPx,
 } from '@wordpress/global-styles';
 
 export default function QuoteEdit( {
@@ -105,7 +106,7 @@ export default function QuoteEdit( {
 				<GlobalStylesPanelBody title={ __( 'Quote' ) }>
 					<RangeControl
 						label={ __( 'Font Size' ) }
-						value={ fontSizeQuote }
+						value={ fromPx( fontSizeQuote ) }
 						onChange={ ( nextValue ) =>
 							setTypography( { fontSizeQuote: nextValue } )
 						}

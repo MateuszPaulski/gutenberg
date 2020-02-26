@@ -8,7 +8,7 @@ import { RangeControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { GlobalStylesPanelBody } from '../global-styles-panel-body';
-import { useGlobalStylesContext } from '../store';
+import { useGlobalStylesContext, fromPx } from '../store';
 
 export default function TypographyControls() {
 	const {
@@ -23,7 +23,7 @@ export default function TypographyControls() {
 		>
 			<RangeControl
 				label={ __( 'Font Size' ) }
-				value={ fontSize }
+				value={ fromPx( fontSize ) }
 				min={ 10 }
 				max={ 30 }
 				step={ 1 }
