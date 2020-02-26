@@ -62,7 +62,8 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 		...toCamelCase( baseStyles ),
 	};
 
-	const setStyles = () => {};
+	const setColor = () => {};
+	const setTypography = () => {};
 
 	// Add user styles if any.
 	const userStyles = useSelect( ( select ) =>
@@ -95,7 +96,8 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 	// Return context value.
 	return {
 		...styles,
-		setStyles,
+		setColor,
+		setTypography,
 	};
 }
 

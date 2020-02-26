@@ -97,7 +97,8 @@ function ParagraphBlock( {
 	const {
 		color: { text: colorText },
 		typography: { lineHeight },
-		setStyles,
+		setTypography,
+		setColor,
 	} = useGlobalStylesContext();
 
 	const ref = useRef();
@@ -148,7 +149,7 @@ function ParagraphBlock( {
 						label={ __( 'Color' ) }
 						value={ colorText }
 						onChange={ ( nextValue ) =>
-							setStyles( { text: nextValue } )
+							setColor( { text: nextValue } )
 						}
 					/>
 					<RangeControl
@@ -158,7 +159,7 @@ function ParagraphBlock( {
 						max={ 2 }
 						step={ 0.1 }
 						onChange={ ( value ) =>
-							setStyles( { lineHeight: value } )
+							setTypography( { lineHeight: value } )
 						}
 					/>
 				</GlobalStylesPanelBody>

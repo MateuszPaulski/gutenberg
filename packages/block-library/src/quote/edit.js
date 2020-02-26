@@ -33,7 +33,7 @@ export default function QuoteEdit( {
 	const { align, value, citation } = attributes;
 	const {
 		typography: { fontSizeQuote },
-		setStyles,
+		setTypography,
 	} = useGlobalStylesContext();
 
 	return (
@@ -107,7 +107,7 @@ export default function QuoteEdit( {
 						label={ __( 'Font Size' ) }
 						value={ fontSizeQuote }
 						onChange={ ( nextValue ) =>
-							setStyles( { fontSizeQuote: nextValue } )
+							setTypography( { fontSizeQuote: nextValue } )
 						}
 						min={ 10 }
 						max={ 50 }

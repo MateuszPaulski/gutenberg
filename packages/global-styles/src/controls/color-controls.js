@@ -17,7 +17,7 @@ export default function ColorControls() {
 			background: colorBackground,
 			primary: colorPrimary,
 		},
-		setStyles,
+		setColor,
 	} = useGlobalStylesContext();
 
 	return (
@@ -25,17 +25,17 @@ export default function ColorControls() {
 			<ColorControl
 				label={ __( 'Text' ) }
 				value={ colorText }
-				onChange={ ( value ) => setStyles( { text: value } ) }
+				onChange={ ( value ) => setColor( { text: value } ) }
 			/>
 			<ColorControl
 				label={ __( 'Background' ) }
 				value={ colorBackground }
-				onChange={ ( value ) => setStyles( { background: value } ) }
+				onChange={ ( value ) => setColor( { background: value } ) }
 			/>
 			<ColorControl
 				label={ __( 'Primary' ) }
 				value={ colorPrimary }
-				onChange={ ( value ) => setStyles( { primary: value } ) }
+				onChange={ ( value ) => setColor( { primary: value } ) }
 			/>
 		</GlobalStylesPanelBody>
 	);
