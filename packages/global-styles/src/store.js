@@ -62,9 +62,6 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 		...toCamelCase( baseStyles ),
 	};
 
-	const setColor = () => {};
-	const setTypography = () => {};
-
 	// Add user styles if any.
 	const userStyles = useSelect( ( select ) =>
 		select( 'core' ).getEditedEntityRecord(
@@ -93,6 +90,11 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 	// Convert styles to CSS props.
 	useRenderedGlobalStyles( styles );
 
+	// Create and bind function settters to context,
+	// so controls can modify the styles.
+	const setColor = () => {};
+	const setTypography = () => {};
+
 	// Return context value.
 	return {
 		...styles,
@@ -117,7 +119,6 @@ function generateFontSizesHeading( { fontSize, fontScale } ) {
 		( Math.pow( fontScale, size ) * fontBase ).toFixed( 2 );
 
 	return {
-		fontSize,
 		fontSizeHeading1: toPx( toScale( 5 ) ),
 		fontSizeHeading2: toPx( toScale( 4 ) ),
 		fontSizeHeading3: toPx( toScale( 3 ) ),
