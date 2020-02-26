@@ -100,40 +100,31 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 	const { editEntityRecord } = useDispatch( 'core' );
 
 	const setColor = ( newStyles ) => {
-		const newColor = {
-			color: {
-				...styles.color,
-				...newStyles,
-			},
-		};
-		const newContent = JSON.stringify( {
-			...styles,
-			...newColor,
-		} );
 		editEntityRecord( 'postType', 'wp_global_styles', userEntityId, {
-			content: newContent,
+			content: JSON.stringify( {
+				...styles,
+				color: {
+					...styles.color,
+					...newStyles,
+				},
+			} ),
 		} );
 	};
 
 	const setTypography = ( newStyles ) => {
-		const baseTypography = getTypographyFromControls(
-			styles.typography,
-			newStyles
-		);
-		const newTypography = {
-			typography: {
-				...baseTypography,
-				...generateFontSizesHeading( baseTypography ),
-				...generateLineHeightHeading( baseTypography ),
-			},
+		const baseTypography = {
+			...styles.typography,
+			...newStyles,
 		};
-
-		const newContent = JSON.stringify( {
-			...styles,
-			...newTypography,
-		} );
 		editEntityRecord( 'postType', 'wp_global_styles', userEntityId, {
-			content: newContent,
+			content: JSON.stringify( {
+				...styles,
+				typography: {
+					...baseTypography,
+					...generateFontSizesHeading( baseTypography ),
+					...generateLineHeightHeading( baseTypography ),
+				},
+			} ),
 		} );
 	};
 
@@ -148,19 +139,6 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 /**
  * NOTE: Generators for extra computed values.
  */
-
-function getTypographyFromControls( oldTypography, newTypography ) {
-	const merged = {
-		...oldTypography,
-		...newTypography,
-	};
-	if ( newTypography.hasOwnProperty( 'fontSizeQuote' ) ) {
-		merged.fontSizeQuote = toPx( newTypography.fontSizeQuote );
-	} else if ( newTypography.hasOwnProperty( 'fontSize' ) ) {
-		merged.fontSize = toPx( newTypography.fontSize );
-	}
-	return merged;
-}
 
 function generateLineHeightHeading( { lineHeight } ) {
 	return {

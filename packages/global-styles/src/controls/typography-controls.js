@@ -9,7 +9,7 @@ import { RangeControl } from '@wordpress/components';
  */
 import { GlobalStylesPanelBody } from '../global-styles-panel-body';
 import { useGlobalStylesContext } from '../store';
-import { fromPx } from '../utils';
+import { fromPx, toPx } from '../utils';
 
 export default function TypographyControls() {
 	const {
@@ -28,7 +28,9 @@ export default function TypographyControls() {
 				min={ 10 }
 				max={ 30 }
 				step={ 1 }
-				onChange={ ( value ) => setTypography( { fontSize: value } ) }
+				onChange={ ( value ) =>
+					setTypography( { fontSize: toPx( value ) } )
+				}
 			/>
 			<RangeControl
 				label={ __( 'Font Scale' ) }

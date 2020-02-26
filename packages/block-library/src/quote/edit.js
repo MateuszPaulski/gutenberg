@@ -21,6 +21,7 @@ import {
 	GlobalStylesPanelBody,
 	useGlobalStylesContext,
 	fromPx,
+	toPx,
 } from '@wordpress/global-styles';
 
 export default function QuoteEdit( {
@@ -108,7 +109,9 @@ export default function QuoteEdit( {
 						label={ __( 'Font Size' ) }
 						value={ fromPx( fontSizeQuote ) }
 						onChange={ ( nextValue ) =>
-							setTypography( { fontSizeQuote: nextValue } )
+							setTypography( {
+								fontSizeQuote: toPx( nextValue ),
+							} )
 						}
 						min={ 10 }
 						max={ 50 }
