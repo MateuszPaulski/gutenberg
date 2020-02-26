@@ -7,7 +7,7 @@ import { camelCase } from 'lodash';
  * WordPress dependencies
  */
 import { useContext, createContext } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
@@ -57,12 +57,16 @@ function toCamelCase( tree ) {
 	return newTree;
 }
 
+// Make object reference immutable
+// so it stays the same in the function setters.
+let styles = {};
 function useGlobalStyles( baseStyles, userEntityId ) {
-	let styles = {
+	// Start with base styles.
+	styles = {
 		...toCamelCase( baseStyles ),
 	};
 
-	// Add user styles if any.
+	// Merge user styles, if any.
 	const userStyles = useSelect( ( select ) =>
 		select( 'core' ).getEditedEntityRecord(
 			'postType',
@@ -77,7 +81,7 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 		};
 	}
 
-	// Add generated styles.
+	// Merge generated styles.
 	styles = {
 		...styles,
 		typography: {
@@ -92,7 +96,21 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 
 	// Create and bind function settters to context,
 	// so controls can modify the styles.
-	const setColor = () => {};
+	const { editEntityRecord } = useDispatch( 'core' );
+
+	const setColor = ( newStyles ) => {
+		const newContent = JSON.stringify( {
+			...styles,
+			color: {
+				...styles.color,
+				...newStyles,
+			},
+		} );
+		editEntityRecord( 'postType', 'wp_global_styles', userEntityId, {
+			content: newContent,
+		} );
+	};
+
 	const setTypography = () => {};
 
 	// Return context value.
