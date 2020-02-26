@@ -31,7 +31,10 @@ export default function QuoteEdit( {
 	className,
 } ) {
 	const { align, value, citation } = attributes;
-	const { fontSizeQuote, setStyles } = useGlobalStylesContext();
+	const {
+		typography: { fontSizeQuote },
+		setStyles,
+	} = useGlobalStylesContext();
 
 	return (
 		<>

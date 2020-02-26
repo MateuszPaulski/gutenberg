@@ -12,10 +12,7 @@ import { useGlobalStylesContext } from '../store';
 
 export default function TypographyControls() {
 	const {
-		fontSize,
-		fontScale,
-		lineHeight,
-		fontWeight,
+		typography: { fontSize, fontScale, lineHeight, fontWeight },
 		setStyles,
 	} = useGlobalStylesContext();
 

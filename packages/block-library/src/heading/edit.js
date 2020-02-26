@@ -31,7 +31,9 @@ import {
 
 function HeadingEdit( { attributes, setAttributes, mergeBlocks, onReplace } ) {
 	const ref = useRef();
-	const { fontWeightHeading, setStyles } = useGlobalStylesContext();
+	const {
+		typography: { fontWeightHeading, setStyles },
+	} = useGlobalStylesContext();
 	const { TextColor, InspectorControlsColorPanel } = __experimentalUseColors(
 		[ { name: 'textColor', property: 'color' } ],
 		{

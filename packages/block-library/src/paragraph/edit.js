@@ -94,7 +94,11 @@ function ParagraphBlock( {
 	setFontSize,
 } ) {
 	const { align, content, dropCap, placeholder, direction } = attributes;
-	const { colorText, lineHeight, setStyles } = useGlobalStylesContext();
+	const {
+		color: { text: colorText },
+		typography: { lineHeight },
+		setStyles,
+	} = useGlobalStylesContext();
 
 	const ref = useRef();
 	const dropCapMinimumHeight = useDropCapMinimumHeight( dropCap, [
@@ -144,7 +148,7 @@ function ParagraphBlock( {
 						label={ __( 'Color' ) }
 						value={ colorText }
 						onChange={ ( nextValue ) =>
-							setStyles( { colorText: nextValue } )
+							setStyles( { text: nextValue } )
 						}
 					/>
 					<RangeControl
