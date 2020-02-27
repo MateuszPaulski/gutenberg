@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-import { kebabCase } from 'lodash';
-
-/**
  * WordPress dependencies
  */
 import { useEffect, useLayoutEffect } from '@wordpress/element';
@@ -62,8 +57,7 @@ function flattenObject( ob, token = '' ) {
 			for ( const x in flatObject ) {
 				if ( ! flatObject.hasOwnProperty( x ) ) continue;
 
-				toReturn[ kebabCase( i ) + token + kebabCase( x ) ] =
-					flatObject[ x ];
+				toReturn[ i + token + x ] = flatObject[ x ];
 			}
 		} else {
 			toReturn[ i ] = ob[ i ];
@@ -87,10 +81,6 @@ function compileStyles( styles = {} ) {
 		}
 	}
 	html.push( '}' );
-
-	html.push(
-		'.editor-styles-wrapper { background-color: var(--wp--color--background); }'
-	);
 
 	return html.join( '\n' );
 }

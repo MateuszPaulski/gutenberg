@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { camelCase } from 'lodash';
+import { camelCase, kebabCase } from 'lodash';
 
 /**
  * WordPress dependencies
@@ -40,7 +40,7 @@ export function GlobalStylesProvider( { children, baseStyles, userEntityId } ) {
 	);
 }
 
-function toCamelCase( tree ) {
+function toCase( tree, transformCase ) {
 	if ( ! ( tree instanceof Object ) ) {
 		return tree;
 	}
@@ -50,9 +50,12 @@ function toCamelCase( tree ) {
 		if ( ! tree.hasOwnProperty( key ) ) continue;
 
 		if ( tree[ key ] instanceof Object ) {
-			newTree[ camelCase( key ) ] = toCamelCase( tree[ key ] );
+			newTree[ transformCase( key ) ] = toCase(
+				tree[ key ],
+				transformCase
+			);
 		} else {
-			newTree[ camelCase( key ) ] = tree[ key ];
+			newTree[ transformCase( key ) ] = tree[ key ];
 		}
 	}
 	return newTree;
@@ -64,7 +67,7 @@ let styles = {};
 function useGlobalStyles( baseStyles, userEntityId ) {
 	// Start with base styles.
 	styles = {
-		...toCamelCase( baseStyles ),
+		...toCase( baseStyles, camelCase ),
 	};
 
 	// Merge user styles, if any.
@@ -78,7 +81,7 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 	if ( Object.keys( userStyles ).length > 0 ) {
 		styles = {
 			...styles,
-			...toCamelCase( JSON.parse( userStyles.content ) ),
+			...toCase( JSON.parse( userStyles.content ), camelCase ),
 		};
 	}
 
@@ -93,7 +96,7 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 	};
 
 	// Convert styles to CSS props.
-	useRenderedGlobalStyles( styles );
+	useRenderedGlobalStyles( toCase( styles, kebabCase ) );
 
 	// Create and bind function settters to context,
 	// so controls can modify the styles.
@@ -101,30 +104,40 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 
 	const setColor = ( newStyles ) => {
 		editEntityRecord( 'postType', 'wp_global_styles', userEntityId, {
-			content: JSON.stringify( {
-				...styles,
-				color: {
-					...styles.color,
-					...newStyles,
-				},
-			} ),
+			content: JSON.stringify(
+				toCase(
+					{
+						...styles,
+						color: {
+							...styles.color,
+							...newStyles,
+						},
+					},
+					kebabCase
+				)
+			),
 		} );
 	};
 
 	const setTypography = ( newStyles ) => {
 		const baseTypography = {
 			...styles.typography,
-			...newStyles,
+			...toCase( newStyles, kebabCase ),
 		};
 		editEntityRecord( 'postType', 'wp_global_styles', userEntityId, {
-			content: JSON.stringify( {
-				...styles,
-				typography: {
-					...baseTypography,
-					...generateFontSizesHeading( baseTypography ),
-					...generateLineHeightHeading( baseTypography ),
-				},
-			} ),
+			content: JSON.stringify(
+				toCase(
+					{
+						...styles,
+						typography: {
+							...baseTypography,
+							...generateFontSizesHeading( baseTypography ),
+							...generateLineHeightHeading( baseTypography ),
+						},
+					},
+					kebabCase
+				)
+			),
 		} );
 	};
 
