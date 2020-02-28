@@ -3,10 +3,6 @@
  */
 import { useEffect, useLayoutEffect } from '@wordpress/element';
 
-/**
- * TODO: Replace everything below with client-side style rendering mechanism
- */
-
 export function useRenderedGlobalStyles( styles = {} ) {
 	useGlobalStylesEnvironment();
 	const generatedStyles = compileStyles( styles );

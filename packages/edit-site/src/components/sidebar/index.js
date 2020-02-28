@@ -5,10 +5,6 @@ import { createSlotFill, Panel } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { GlobalStylesPanel } from '@wordpress/global-styles';
 
-/**
- * Internal dependencies
- */
-
 const { Slot: InspectorSlot, Fill: InspectorFill } = createSlotFill(
 	'EditSiteSidebarInspector'
 );

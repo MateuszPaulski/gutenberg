@@ -1,9 +1,6 @@
 /**
  * Internal dependencies
  */
-
-import { Slot } from './slot';
-
 import { ColorControls, TypographyControls } from './controls';
 
 export function GlobalStylesPanel() {
@@ -11,7 +8,6 @@ export function GlobalStylesPanel() {
 		<>
 			<TypographyControls />
 			<ColorControls />
-			<Slot />
 		</>
 	);
 }

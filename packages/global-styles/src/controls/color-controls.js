@@ -2,12 +2,11 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { ColorControl } from '@wordpress/components';
+import { ColorControl, PanelBody } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
-import { GlobalStylesPanelBody } from '../global-styles-panel-body';
 import { useGlobalStylesContext } from '../provider';
 
 export default function ColorControls() {
@@ -21,7 +20,7 @@ export default function ColorControls() {
 	} = useGlobalStylesContext();
 
 	return (
-		<GlobalStylesPanelBody title={ __( 'Colors' ) } initialOpen={ false }>
+		<PanelBody title={ __( 'Colors' ) } initialOpen={ false }>
 			<ColorControl
 				label={ __( 'Text' ) }
 				value={ colorText }
@@ -37,6 +36,6 @@ export default function ColorControls() {
 				value={ colorPrimary }
 				onChange={ ( value ) => setColor( { primary: value } ) }
 			/>
-		</GlobalStylesPanelBody>
+		</PanelBody>
 	);
 }
