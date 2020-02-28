@@ -8,7 +8,7 @@ import { RangeControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { GlobalStylesPanelBody } from '../global-styles-panel-body';
-import { useGlobalStylesContext } from '../store';
+import { useGlobalStylesContext } from '../provider';
 import { fromPx, toPx } from '../utils';
 
 export default function TypographyControls() {

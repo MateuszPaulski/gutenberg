@@ -8,7 +8,7 @@ import { ColorControl } from '@wordpress/components';
  * Internal dependencies
  */
 import { GlobalStylesPanelBody } from '../global-styles-panel-body';
-import { useGlobalStylesContext } from '../store';
+import { useGlobalStylesContext } from '../provider';
 
 export default function ColorControls() {
 	const {

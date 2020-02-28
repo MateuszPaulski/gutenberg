@@ -15,10 +15,6 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { useRenderedGlobalStyles } from './renderer';
 import { fromPx, toPx } from './utils';
 
-/**
- * TODO: Replace everything below with wp.data store mechanism
- */
-
 const GlobalStylesContext = createContext( {} );
 export const useGlobalStylesContext = () => useContext( GlobalStylesContext );
 
