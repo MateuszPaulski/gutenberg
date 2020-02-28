@@ -7,13 +7,7 @@ import classnames from 'classnames';
  * WordPress dependencies
  */
 import { __, _x } from '@wordpress/i18n';
-import {
-	ColorControl,
-	PanelBody,
-	RangeControl,
-	ToggleControl,
-	ToolbarGroup,
-} from '@wordpress/components';
+import { PanelBody, ToggleControl, ToolbarGroup } from '@wordpress/components';
 import {
 	AlignmentToolbar,
 	BlockControls,
@@ -29,12 +23,6 @@ import { compose } from '@wordpress/compose';
 import { useSelect } from '@wordpress/data';
 import { useEffect, useState, useRef } from '@wordpress/element';
 import { formatLtr } from '@wordpress/icons';
-
-import {
-	GlobalStylesControls,
-	GlobalStylesPanelBody,
-	useGlobalStylesContext,
-} from '@wordpress/global-styles';
 
 /**
  * Browser dependencies
@@ -94,12 +82,6 @@ function ParagraphBlock( {
 	setFontSize,
 } ) {
 	const { align, content, dropCap, placeholder, direction } = attributes;
-	const {
-		color: { text: colorText },
-		typography: { lineHeight },
-		setTypography,
-		setColor,
-	} = useGlobalStylesContext();
 
 	const ref = useRef();
 	const dropCapMinimumHeight = useDropCapMinimumHeight( dropCap, [
@@ -143,27 +125,6 @@ function ParagraphBlock( {
 					}
 				/>
 			</BlockControls>
-			<GlobalStylesControls>
-				<GlobalStylesPanelBody title={ __( 'Paragraph' ) }>
-					<ColorControl
-						label={ __( 'Color' ) }
-						value={ colorText }
-						onChange={ ( nextValue ) =>
-							setColor( { text: nextValue } )
-						}
-					/>
-					<RangeControl
-						label={ __( 'Line Height' ) }
-						value={ lineHeight }
-						min={ 1 }
-						max={ 2 }
-						step={ 0.1 }
-						onChange={ ( value ) =>
-							setTypography( { lineHeight: value } )
-						}
-					/>
-				</GlobalStylesPanelBody>
-			</GlobalStylesControls>
 			<InspectorControls>
 				<PanelBody title={ __( 'Text settings' ) }>
 					<FontSizePicker

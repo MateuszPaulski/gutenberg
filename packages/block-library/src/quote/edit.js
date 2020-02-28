@@ -12,17 +12,8 @@ import {
 	BlockControls,
 	RichText,
 } from '@wordpress/block-editor';
-
-import { BlockQuotation, RangeControl } from '@wordpress/components';
+import { BlockQuotation } from '@wordpress/components';
 import { createBlock } from '@wordpress/blocks';
-
-import {
-	GlobalStylesControls,
-	GlobalStylesPanelBody,
-	useGlobalStylesContext,
-	fromPx,
-	toPx,
-} from '@wordpress/global-styles';
 
 export default function QuoteEdit( {
 	attributes,
@@ -33,10 +24,6 @@ export default function QuoteEdit( {
 	className,
 } ) {
 	const { align, value, citation } = attributes;
-	const {
-		typography: { fontSizeQuote },
-		setTypography,
-	} = useGlobalStylesContext();
 
 	return (
 		<>
@@ -103,22 +90,6 @@ export default function QuoteEdit( {
 					/>
 				) }
 			</BlockQuotation>
-			<GlobalStylesControls>
-				<GlobalStylesPanelBody title={ __( 'Quote' ) }>
-					<RangeControl
-						label={ __( 'Font Size' ) }
-						value={ fromPx( fontSizeQuote ) }
-						onChange={ ( nextValue ) =>
-							setTypography( {
-								fontSizeQuote: toPx( nextValue ),
-							} )
-						}
-						min={ 10 }
-						max={ 50 }
-						step={ 1 }
-					/>
-				</GlobalStylesPanelBody>
-			</GlobalStylesControls>
 		</>
 	);
 }
