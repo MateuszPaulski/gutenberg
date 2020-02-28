@@ -118,7 +118,7 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 	const setTypography = ( newStyles ) => {
 		const baseTypography = {
 			...styles.typography,
-			...toCase( newStyles, kebabCase ),
+			...newStyles,
 		};
 		editEntityRecord( 'postType', 'wp_global_styles', userEntityId, {
 			content: JSON.stringify(
