@@ -208,7 +208,7 @@ function gutenberg_experimental_global_styles_enqueue_assets() {
 		return;
 	}
 
-	$global_styles = array_merge(
+	$global_styles = array_replace_recursive(
 		gutenberg_experimental_global_styles_get_core(),
 		gutenberg_experimental_global_styles_get_theme(),
 		gutenberg_experimental_global_styles_get_user()
