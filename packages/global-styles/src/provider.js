@@ -121,19 +121,12 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 	};
 
 	const setTypography = ( newStyles ) => {
-		const baseTypography = {
-			...styles.typography,
-			...newStyles,
-		};
 		editEntityRecord( 'postType', 'wp_global_styles', userEntityId, {
 			content: JSON.stringify(
 				toCase(
 					{
-						...styles,
 						typography: {
-							...baseTypography,
-							...generateFontSizesHeading( baseTypography ),
-							...generateLineHeightHeading( baseTypography ),
+							...newStyles,
 						},
 					},
 					kebabCase
