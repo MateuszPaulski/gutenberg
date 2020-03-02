@@ -67,17 +67,24 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 	};
 
 	// Merge user styles, if any.
-	const userStyles = useSelect( ( select ) =>
+	const userData = useSelect( ( select ) =>
 		select( 'core' ).getEditedEntityRecord(
 			'postType',
 			'wp_global_styles',
 			userEntityId
 		)
 	);
-	if ( Object.keys( userStyles ).length > 0 ) {
+	if ( Object.keys( userData ).length > 0 ) {
+		const userStyles = toCase( JSON.parse( userData.content ), camelCase );
 		styles = {
-			...styles,
-			...toCase( JSON.parse( userStyles.content ), camelCase ),
+			color: {
+				...styles.color,
+				...userStyles.color,
+			},
+			typography: {
+				...styles.typography,
+				...userStyles.typography,
+			},
 		};
 	}
 
@@ -103,9 +110,7 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 			content: JSON.stringify(
 				toCase(
 					{
-						...styles,
 						color: {
-							...styles.color,
 							...newStyles,
 						},
 					},
