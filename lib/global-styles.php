@@ -90,8 +90,8 @@ function gutenberg_experimental_global_styles_get_user() {
  *
  * @param array $post_status_filter Filter CPT by post status.
  *                                  By default, only fetches published posts.
- * @param bool  $should_create_draft Whether a new draft should be created
- *                                   if no CPT was found. False by default.
+ * @param bool  $should_create_cpt Whether a new draft should be created
+ *                                 if no CPT was found. False by default.
  * @return array Custom Post Type for the user's Global Styles.
  */
 function gutenberg_experimental_global_styles_get_user_cpt( $post_status_filter = array( 'publish' ), $should_create_cpt = false ) {
