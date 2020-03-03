@@ -164,14 +164,89 @@ function gutenberg_experimental_global_styles_get_theme() {
 }
 
 /**
- * Takes a Global Styles tree and returns a CSS rule
- * that contains the corresponding CSS custom properties.
+ * Given a base line height and a multiplier, generates a new line height.
+ *
+ * @param integer $line_height Base line height.
+ * @param integer $multiplier Multiplier.
+ * @return float New line height.
+ */
+function gutenberg_experimental_global_styles_generate_line_height( $line_height, $multiplier ) {
+	return round( $line_height * $multiplier, 2 );
+}
+
+/**
+ * Given a base font weight and a multiplier, generates a new font weight.
+ *
+ * @param integer $font_weight Base font weight.
+ * @param integer $multiplier Multiplier.
+ * @return integer New font weight.
+ */
+function gutenberg_experimental_global_styles_generate_font_weight( $font_weight, $multiplier ) {
+	return intval( $font_weight * $multiplier );
+}
+
+/**
+ * Given a font size, scale, and multiplier,
+ * generates a new font size.
+ *
+ * @param string  $font_base Base font size in pixels.
+ * @param integer $font_scale Base scale.
+ * @param integer $multiplier Multiplier.
+ * @return float Font size in pixels.
+ */
+function gutenberg_experimental_global_styles_generate_font_size( $font_base, $font_scale, $multiplier ) {
+	$font_base_unitless = intval( str_replace( 'px', '', $font_base ) );
+	return round( pow( $font_scale, $multiplier ) * $font_base_unitless, 2 ) . 'px';
+}
+
+/**
+ * Given a global styles tree, generates the value of some
+ * design tokens.
  *
  * @param array $global_styles Global Styles tree.
+ * @return array Global Styles tree with the new values.
+ */
+function gutenberg_experimental_global_styles_generate_styles( $global_styles ) {
+	$line_height = $global_styles['typography']['line-height'];
+	$font_size   = $global_styles['typography']['font-size'];
+	$font_scale  = $global_styles['typography']['font-scale'];
+	$font_weight = $global_styles['typography']['font-weight'];
+
+	$tree = array_replace_recursive(
+		$global_styles,
+		array(
+			'typography' => array(
+				'line-height-heading' => gutenberg_experimental_global_styles_generate_line_height( $line_height, 0.8 ),
+				'font-size-heading-1' => gutenberg_experimental_global_styles_generate_font_size( $font_size, $font_scale, 5 ),
+				'font-size-heading-2' => gutenberg_experimental_global_styles_generate_font_size( $font_size, $font_scale, 4 ),
+				'font-size-heading-3' => gutenberg_experimental_global_styles_generate_font_size( $font_size, $font_scale, 3 ),
+				'font-size-heading-4' => gutenberg_experimental_global_styles_generate_font_size( $font_size, $font_scale, 2 ),
+				'font-size-heading-5' => gutenberg_experimental_global_styles_generate_font_size( $font_size, $font_scale, 1 ),
+				'font-size-heading-6' => gutenberg_experimental_global_styles_generate_font_size( $font_size, $font_scale, 0.5 ),
+				'font-weight-heading' => gutenberg_experimental_global_styles_generate_font_weight( $font_weight, 1.5 ),
+			),
+		)
+	);
+	return $tree;
+}
+
+/**
+ * Takes core, theme, and user preferences,
+ * builds a single global styles tree and returns a CSS rule
+ * that contains the corresponding CSS custom properties.
+ *
  * @return string CSS rule.
  */
-function gutenberg_experimental_global_styles_resolver( $global_styles ) {
+function gutenberg_experimental_global_styles_resolver() {
 	$css_rule = '';
+
+	$base = array_replace_recursive(
+		gutenberg_experimental_global_styles_get_core(),
+		gutenberg_experimental_global_styles_get_theme(),
+		gutenberg_experimental_global_styles_get_user()
+	);
+
+	$global_styles = gutenberg_experimental_global_styles_generate_styles( $base );
 
 	$token    = '--';
 	$prefix   = '--wp' . $token;
@@ -208,13 +283,7 @@ function gutenberg_experimental_global_styles_enqueue_assets() {
 		return;
 	}
 
-	$global_styles = array_replace_recursive(
-		gutenberg_experimental_global_styles_get_core(),
-		gutenberg_experimental_global_styles_get_theme(),
-		gutenberg_experimental_global_styles_get_user()
-	);
-
-	$inline_style = gutenberg_experimental_global_styles_resolver( $global_styles );
+	$inline_style = gutenberg_experimental_global_styles_resolver();
 	if ( empty( $inline_style ) ) {
 		return;
 	}

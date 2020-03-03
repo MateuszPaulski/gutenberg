@@ -95,6 +95,7 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 			...styles.typography,
 			...generateFontSizesHeading( styles.typography ),
 			...generateLineHeightHeading( styles.typography ),
+			...generateFontWeightHeading( styles.typography ),
 		},
 	};
 
@@ -144,12 +145,20 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 }
 
 /**
- * NOTE: Generators for extra computed values.
+ * Generators for extra computed values.
+ *
+ * This implementation needs to be replicated server-side.
  */
 
 function generateLineHeightHeading( { lineHeight } ) {
 	return {
 		lineHeightHeading: ( lineHeight * 0.8 ).toFixed( 2 ),
+	};
+}
+
+function generateFontWeightHeading( { fontWeight } ) {
+	return {
+		fontWeightHeading: ( fontWeight * 1.5 ).toFixed( 2 ),
 	};
 }
 
