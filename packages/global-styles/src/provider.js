@@ -74,8 +74,9 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 			userEntityId
 		)
 	);
+	let userStyles = {};
 	if ( Object.keys( userData ).length > 0 ) {
-		const userStyles = toCase( JSON.parse( userData.content ), camelCase );
+		userStyles = toCase( JSON.parse( userData.content ), camelCase );
 		styles = {
 			color: {
 				...styles.color,
@@ -111,7 +112,11 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 			content: JSON.stringify(
 				toCase(
 					{
+						typography: {
+							...userStyles.typography,
+						},
 						color: {
+							...userStyles.color,
 							...newStyles,
 						},
 					},
@@ -126,7 +131,11 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 			content: JSON.stringify(
 				toCase(
 					{
+						color: {
+							...userStyles.color,
+						},
 						typography: {
+							...userStyles.typography,
 							...newStyles,
 						},
 					},
