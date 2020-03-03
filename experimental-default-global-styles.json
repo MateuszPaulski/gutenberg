@@ -1,13 +1,13 @@
 {
 	"color": {
-		"primary": "#52accc",
 		"background": "white",
+		"primary": "#52accc",
 		"text": "black"
 	},
 	"typography": {
 		"font-scale": 1.2,
 		"font-size": "16px",
 		"font-weight": 400,
-		"line-height": 1.5,
+		"line-height": 1.5
 	}
 }
