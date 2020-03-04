@@ -90,15 +90,17 @@ function useGlobalStyles( baseStyles, userEntityId ) {
 	}
 
 	// Merge generated styles.
-	styles = {
-		...styles,
-		typography: {
-			...styles.typography,
-			...generateFontSizesHeading( styles.typography ),
-			...generateLineHeightHeading( styles.typography ),
-			...generateFontWeightHeading( styles.typography ),
-		},
-	};
+	if ( styles.typography !== undefined ) {
+		styles = {
+			...styles,
+			typography: {
+				...styles.typography,
+				...generateFontSizesHeading( styles.typography ),
+				...generateLineHeightHeading( styles.typography ),
+				...generateFontWeightHeading( styles.typography ),
+			},
+		};
+	}
 
 	// Convert styles to CSS props.
 	useRenderedGlobalStyles( toCase( styles, kebabCase ) );

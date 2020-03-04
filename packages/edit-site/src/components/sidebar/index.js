@@ -12,9 +12,7 @@ const { Slot: InspectorSlot, Fill: InspectorFill } = createSlotFill(
 function Sidebar() {
 	return (
 		<div className="edit-site-sidebar">
-			<Panel header={ __( 'Global Styles' ) }>
-				<GlobalStylesPanel bubblesVirtually />
-			</Panel>
+			<GlobalStylesPanel />
 			<Panel header={ __( 'Inspector' ) }>
 				<InspectorSlot bubblesVirtually />
 			</Panel>

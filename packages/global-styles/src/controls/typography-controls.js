@@ -7,15 +7,12 @@ import { PanelBody, RangeControl } from '@wordpress/components';
 /**
  * Internal dependencies
  */
-import { useGlobalStylesContext } from '../provider';
 import { fromPx, toPx } from '../utils';
 
-export default function TypographyControls() {
-	const {
-		typography: { fontSize, fontScale, lineHeight, fontWeight },
-		setTypography,
-	} = useGlobalStylesContext();
-
+export default function TypographyControls( {
+	typography: { fontSize, fontScale, lineHeight, fontWeight },
+	setTypography,
+} ) {
 	return (
 		<PanelBody title={ __( 'Typography' ) } initialOpen={ false }>
 			<RangeControl

@@ -4,21 +4,14 @@
 import { __ } from '@wordpress/i18n';
 import { ColorControl, PanelBody } from '@wordpress/components';
 
-/**
- * Internal dependencies
- */
-import { useGlobalStylesContext } from '../provider';
-
-export default function ColorControls() {
-	const {
-		color: {
-			text: colorText,
-			background: colorBackground,
-			primary: colorPrimary,
-		},
-		setColor,
-	} = useGlobalStylesContext();
-
+export default function ColorControls( {
+	color: {
+		text: colorText,
+		background: colorBackground,
+		primary: colorPrimary,
+	},
+	setColor,
+} ) {
 	return (
 		<PanelBody title={ __( 'Colors' ) } initialOpen={ false }>
 			<ColorControl
