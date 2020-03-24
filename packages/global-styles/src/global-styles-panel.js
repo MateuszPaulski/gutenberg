@@ -7,18 +7,13 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { ColorControls, TypographyControls } from './controls';
+import { TypographyControls } from './controls';
 import { useGlobalStylesContext } from './provider';
 
 export function GlobalStylesPanel() {
-	const {
-		typography,
-		setTypography,
-		color,
-		setColor,
-	} = useGlobalStylesContext();
+	const { typography, setTypography } = useGlobalStylesContext();
 
-	if ( color === undefined || typography === undefined ) {
+	if ( typography === undefined ) {
 		return null;
 	}
 
@@ -28,7 +23,6 @@ export function GlobalStylesPanel() {
 				typography={ typography }
 				setTypography={ setTypography }
 			/>
-			<ColorControls color={ color } setColor={ setColor } />
 		</Panel>
 	);
 }
